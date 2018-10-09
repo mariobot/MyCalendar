@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+<html>
+<head>
+
+    <script src="~/Scripts/dhtmlxscheduler.js"></script>
+    <link href="~/Scripts/dhtmlxscheduler.css" rel="stylesheet" />
+    <style type="text/css">
+        html, body {
+            height: 100%;
+            padding: 0px;
+            margin: 0px;
+        }
+    </style>
+    <script type="text/javascript">
+        function init() {
+            //scheduler.config.xml_date = "m-d-Y H:m"; // format of dates in XML
+            //scheduler.config.xml_date = "%d/%m/%Y %H:%i";
+            scheduler.config.xml_date = "%Y-%m-%d %H:%i";
+            scheduler.init("scheduler_here", new Date(@DateTime.Now.Year, @DateTime.Now.Month-1, @DateTime.Now.Day), "month");
+            scheduler.load("/Calendar/Data", "json");  //path to the newly created action
+
+            var dp = new dataProcessor("/Calendar/Save");
+            dp.init(scheduler);
+            dp.setTransactionMode("POST", false);
+            //scheduler.load("/Scripts/events.json", "json");  //path to the newly created action
+        }
+    </script>
+</head>
+<body Onload="init()">
+    <div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
+        <div class="dhx_cal_navline">
+            <div class="dhx_cal_prev_button"> </div>
+            <div class="dhx_cal_next_button"> </div>
+            <div class="dhx_cal_today_button"></div>
+            <div class="dhx_cal_date"></div>
+            <div class="dhx_cal_tab" name="day_tab" style="removed:204px;"></div>
+            <div class="dhx_cal_tab" name="week_tab" style="removed:140px;"></div>
+            <div class="dhx_cal_tab" name="month_tab" style="removed:76px;"></div>
+        </div>
+        <div class="dhx_cal_header">
+        </div>
+        <div class="dhx_cal_data">
+        </div>
+    </div>
+    <a href="https://www.codeproject.com/Articles/148500/Event-Calendar-for-an-ASP-NET-MVC-Application" target="_blank">Tutorial Link Event Calendar for an ASP NET MVC App</a>
+</body>
+</html>
